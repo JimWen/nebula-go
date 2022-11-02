@@ -41,9 +41,14 @@ func (session *Session) reconnectWithExecuteErr(err error) error {
 		return err
 	}
 
-	if _err := session.reConnect(); _err != nil {
-		return fmt.Errorf("failed to reconnect, %s", _err.Error())
+	for {
+		if _err := session.reConnect(); _err != nil {
+			return fmt.Errorf("failed to reconnect, %s", _err.Error())
+		}
+
+		time.Sleep(10 * time.Second)
 	}
+
 	session.log.Info(fmt.Sprintf("Successfully reconnect to host: %s, port: %d",
 		session.connection.severAddress.Host, session.connection.severAddress.Port))
 	return nil
@@ -179,6 +184,7 @@ func (session *Session) ExecuteJsonWithParameter(stmt string, params map[string]
 		}
 		paramsMap[k] = nv
 	}
+
 	execFunc := func() (interface{}, error) {
 		resp, err := session.connection.ExecuteJsonWithParameter(session.sessionID, stmt, paramsMap)
 		if err != nil {
@@ -186,6 +192,7 @@ func (session *Session) ExecuteJsonWithParameter(stmt string, params map[string]
 		}
 		return resp, nil
 	}
+
 	resp, err := session.executeWithReconnect(execFunc)
 	if err != nil {
 		return nil, err
@@ -194,15 +201,38 @@ func (session *Session) ExecuteJsonWithParameter(stmt string, params map[string]
 }
 
 func (session *Session) reConnect() error {
-	newconnection, err := session.connPool.getIdleConn()
-	if err != nil {
-		err = fmt.Errorf(err.Error())
-		return err
+	if session.connPool != nil {
+		newconnection, err := session.connPool.getIdleConn()
+		if err != nil {
+			err = fmt.Errorf(err.Error())
+			return err
+		}
+
+		// Release connection to pool
+		session.connPool.release(session.connection)
+		session.connection = newconnection
+	} else if session.sessPool != nil {
+		newsession, err := session.sessPool.newSession()
+		if err != nil {
+			err = fmt.Errorf(err.Error())
+			return err
+		}
+
+		// close current session connect
+		if session.connection != nil {
+			session.log.Warn("Session has been released")
+
+			if err := session.connection.signOut(session.sessionID); err != nil {
+				session.log.Warn(fmt.Sprintf("Sign out failed, %s", err.Error()))
+			}
+
+			// close connection
+			session.connection.close()
+		}
+
+		session.connection = newsession.connection
 	}
 
-	// Release connection to pool
-	session.connPool.release(session.connection)
-	session.connection = newconnection
 	return nil
 }
 

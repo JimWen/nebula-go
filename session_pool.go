@@ -112,19 +112,8 @@ func (pool *SessionPool) ExecuteWithParameter(stmt string, params map[string]int
 		return nil, err
 	}
 
-	// Parse params
-	paramsMap, err := parseParams(params)
-	if err != nil {
-		return nil, err
-	}
-
 	// Execute the query
-	resp, err := session.connection.executeWithParameter(session.sessionID, stmt, paramsMap)
-	if err != nil {
-		return nil, err
-	}
-
-	resSet, err := genResultSet(resp, session.timezoneInfo)
+	resSet, err := session.ExecuteWithParameter(stmt, params)
 	if err != nil {
 		return nil, err
 	}
@@ -222,15 +211,10 @@ func (pool *SessionPool) ExecuteJsonWithParameter(stmt string, params map[string
 	if session.connection == nil {
 		return nil, fmt.Errorf("failed to execute: Session has been released")
 	}
-	// parse params
-	paramsMap, err := parseParams(params)
-	if err != nil {
-		return nil, err
-	}
 
 	pool.rwLock.Lock()
 	defer pool.rwLock.Unlock()
-	resp, err := session.connection.ExecuteJsonWithParameter(session.sessionID, stmt, paramsMap)
+	resp, err := session.ExecuteJsonWithParameter(stmt, params)
 	if err != nil {
 		return nil, err
 	}
