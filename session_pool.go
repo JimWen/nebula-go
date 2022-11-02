@@ -118,6 +118,9 @@ func (pool *SessionPool) ExecuteWithParameter(stmt string, params map[string]int
 		return nil, err
 	}
 
+	// Return the session to the idle list
+	defer pool.returnSession(session)
+
 	// if the space was changed after the execution of the given query,
 	// change it back to the default space specified in the pool config
 	if resSet.GetSpaceName() != "" && resSet.GetSpaceName() != pool.conf.spaceName {
@@ -126,9 +129,6 @@ func (pool *SessionPool) ExecuteWithParameter(stmt string, params map[string]int
 			return nil, err
 		}
 	}
-
-	// Return the session to the idle list
-	pool.returnSession(session)
 
 	return resSet, err
 }
@@ -207,6 +207,10 @@ func (pool *SessionPool) ExecuteJsonWithParameter(stmt string, params map[string
 	if err != nil {
 		return nil, err
 	}
+
+	// Return the session to the idle list
+	defer pool.returnSession(session)
+
 	// check the session is valid
 	if session.connection == nil {
 		return nil, fmt.Errorf("failed to execute: Session has been released")
