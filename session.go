@@ -36,13 +36,11 @@ type Session struct {
 
 func (session *Session) reconnectWithExecuteErr(err error) error {
 	// Reconnect only if the transport is closed
-	err2, ok := err.(thrift.TransportException)
+	_, ok := err.(thrift.TransportException)
 	if !ok {
 		return err
 	}
-	if err2.TypeID() != thrift.END_OF_FILE {
-		return err
-	}
+
 	if _err := session.reConnect(); _err != nil {
 		return fmt.Errorf("failed to reconnect, %s", _err.Error())
 	}
