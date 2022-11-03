@@ -69,6 +69,7 @@ func NewSessionPool(conf SessionPoolConf, log Logger) (*SessionPool, error) {
 func (pool *SessionPool) init() error {
 	pool.rwLock.Lock()
 	defer pool.rwLock.Unlock()
+
 	// check the hosts status
 	if err := checkAddresses(pool.conf.timeOut, pool.conf.serviceAddrs, pool.sslConfig); err != nil {
 		return fmt.Errorf("failed to initialize the session pool, %s", err.Error())
@@ -216,8 +217,6 @@ func (pool *SessionPool) ExecuteJsonWithParameter(stmt string, params map[string
 		return nil, fmt.Errorf("failed to execute: Session has been released")
 	}
 
-	pool.rwLock.Lock()
-	defer pool.rwLock.Unlock()
 	resp, err := session.ExecuteJsonWithParameter(stmt, params)
 	if err != nil {
 		return nil, err
@@ -231,6 +230,12 @@ func (pool *SessionPool) ExecuteJsonWithParameter(stmt string, params map[string
 func (pool *SessionPool) Close() {
 	pool.rwLock.Lock()
 	defer pool.rwLock.Unlock()
+
+	pool.close()
+}
+
+// Close logs out all sessions and closes bonded connection.
+func (pool *SessionPool) close() {
 
 	//TODO(Aiee) append 2 lists
 	idleLen := pool.idleSessions.Len()
@@ -270,6 +275,7 @@ func (pool *SessionPool) Close() {
 func (pool *SessionPool) GetTotalSessionCount() int {
 	pool.rwLock.RLock()
 	defer pool.rwLock.RUnlock()
+
 	return pool.activeSessions.Len() + pool.idleSessions.Len()
 }
 
@@ -300,7 +306,7 @@ func (pool *SessionPool) newSession() (*Session, error) {
 	if authResp.GetErrorCode() != 0 {
 		if authResp.GetErrorCode() == nebula.ErrorCode_E_BAD_USERNAME_PASSWORD ||
 			authResp.GetErrorCode() == nebula.ErrorCode_E_USER_NOT_FOUND {
-			pool.Close()
+			pool.close()
 			return nil, fmt.Errorf(
 				"failed to authenticate the user, error code: %d, error message: %s, the pool has been closed",
 				authResp.ErrorCode, authResp.ErrorMsg)
@@ -353,6 +359,7 @@ func (pool *SessionPool) getNextAddr() HostAddress {
 func (pool *SessionPool) getIdleSession() (*Session, error) {
 	pool.rwLock.Lock()
 	defer pool.rwLock.Unlock()
+
 	// Get a session from the idle queue if possible
 	if pool.idleSessions.Len() > 0 {
 		session := pool.idleSessions.Front().Value.(*Session)
@@ -368,9 +375,20 @@ func (pool *SessionPool) getIdleSession() (*Session, error) {
 		pool.addSessionToList(&pool.activeSessions, session)
 		return session, nil
 	}
+
 	// There is no available session in the pool and the total session count has reached the limit
 	return nil, fmt.Errorf("failed to get session: no session available in the" +
 		" session pool and the total session count has reached the limit")
+}
+
+// returnSession returns a session from active list to the idle list.
+func (pool *SessionPool) returnSession(session *Session) {
+	pool.rwLock.Lock()
+	defer pool.rwLock.Unlock()
+
+	pool.removeSessionFromList(&pool.activeSessions, session)
+	pool.addSessionToList(&pool.idleSessions, session)
+	session.returnedAt = time.Now()
 }
 
 // startCleaner starts sessionCleaner if idleTime > 0.
@@ -397,29 +415,32 @@ func (pool *SessionPool) sessionCleaner() {
 		case <-pool.cleanerChan: // pool was closed.
 		}
 
-		pool.rwLock.Lock()
+		func() {
+			pool.rwLock.Lock()
+			defer pool.rwLock.Unlock()
 
-		if pool.closed {
-			pool.cleanerChan = nil
-			pool.rwLock.Unlock()
-			return
-		}
-
-		closing := pool.timeoutSessionList()
-
-		//release expired session from the pool
-		for _, session := range closing {
-			if session.connection == nil {
-				session.log.Warn("Session has been released")
+			if pool.closed {
+				pool.cleanerChan = nil
 				return
 			}
-			if err := session.connection.signOut(session.sessionID); err != nil {
-				session.log.Warn(fmt.Sprintf("Sign out failed, %s", err.Error()))
+
+			closing := pool.timeoutSessionList()
+
+			//release expired session from the pool
+			for _, session := range closing {
+				if session.connection == nil {
+					session.log.Warn("Session has been released")
+					return
+				}
+
+				if err := session.connection.signOut(session.sessionID); err != nil {
+					session.log.Warn(fmt.Sprintf("Sign out failed, %s", err.Error()))
+				}
+
+				// close connection
+				session.connection.close()
 			}
-			// close connection
-			session.connection.close()
-		}
-		pool.rwLock.Unlock()
+		}()
 
 		t.Reset(d)
 	}
@@ -478,21 +499,13 @@ func (pool *SessionPool) addSessionToList(l *list.List, session *Session) {
 	l.PushBack(session)
 }
 
-// returnSession returns a session from active list to the idle list.
-func (pool *SessionPool) returnSession(session *Session) {
-	pool.rwLock.Lock()
-	defer pool.rwLock.Unlock()
-	pool.removeSessionFromList(&pool.activeSessions, session)
-	pool.addSessionToList(&pool.idleSessions, session)
-	session.returnedAt = time.Now()
-}
-
 func (pool *SessionPool) setSessionSpaceToDefault(session *Session) error {
 	stmt := fmt.Sprintf("USE %s", pool.conf.spaceName)
 	resp, err := session.connection.execute(session.sessionID, stmt)
 	if err != nil {
 		return err
 	}
+
 	// if failed to change back to the default space, send a warning log
 	// and remove the session from the pool because it is malformed.
 	if resp.ErrorCode != nebula.ErrorCode_SUCCEEDED {
