@@ -43,10 +43,11 @@ func (session *Session) reconnectWithExecuteErr(err error) error {
 
 	for {
 		if _err := session.reConnect(); _err != nil {
-			return fmt.Errorf("failed to reconnect, %s", _err.Error())
+			session.log.Error(fmt.Sprintf("failed to reconnect, %s", _err.Error()))
+			time.Sleep(10 * time.Second)
+		} else {
+			break
 		}
-
-		time.Sleep(10 * time.Second)
 	}
 
 	session.log.Info(fmt.Sprintf("Successfully reconnect to host: %s, port: %d",
