@@ -30,8 +30,8 @@ type PoolConfig struct {
 	// The min connections in pool for all addresses
 	MinConnPoolSize int
 
-	reconnectCfg ReconnectConfig
-	retryCfg     RetryConfig
+	ReconnectCfg ReconnectConfig
+	RetryCfg     RetryConfig
 }
 
 type ReconnectConfig struct {
@@ -72,26 +72,26 @@ func (conf *PoolConfig) validateConf(log Logger) {
 		log.Warn("Invalid MinConnPoolSize value, the default value of 0 has been applied")
 	}
 
-	if conf.reconnectCfg.MaxTimeDuration < 0 {
-		conf.reconnectCfg.MaxTimeDuration = 0 * time.Second
-		log.Warn("Illegal reconnectCfg MaxTimeDuration value, the default value of 0 second has been applied")
+	if conf.ReconnectCfg.MaxTimeDuration < 0 {
+		conf.ReconnectCfg.MaxTimeDuration = 0 * time.Second
+		log.Warn("Illegal ReconnectCfg MaxTimeDuration value, the default value of 0 second has been applied")
 	}
-	if conf.reconnectCfg.IdleTime < 1 {
-		conf.reconnectCfg.IdleTime = 10 * time.Second
-		log.Warn("Illegal reconnectCfg IdleTime value, the default value of 10 second has been applied")
+	if conf.ReconnectCfg.IdleTime < 1 {
+		conf.ReconnectCfg.IdleTime = 10 * time.Second
+		log.Warn("Illegal ReconnectCfg IdleTime value, the default value of 10 second has been applied")
 	}
-	if conf.reconnectCfg.MaxTime < 0 {
-		conf.reconnectCfg.MaxTime = 0
-		log.Warn("Invalid reconnectCfg MaxTime value, the default value of 0 has been applied")
+	if conf.ReconnectCfg.MaxTime < 0 {
+		conf.ReconnectCfg.MaxTime = 0
+		log.Warn("Invalid ReconnectCfg MaxTime value, the default value of 0 has been applied")
 	}
 
-	if conf.retryCfg.IdleTime < 1 {
-		conf.retryCfg.IdleTime = 1 * time.Second
-		log.Warn("Illegal retryCfg IdleTime value, the default value of 1 second has been applied")
+	if conf.RetryCfg.IdleTime < 1 {
+		conf.RetryCfg.IdleTime = 1 * time.Second
+		log.Warn("Illegal RetryCfg IdleTime value, the default value of 1 second has been applied")
 	}
-	if conf.retryCfg.MaxTime < 1 {
-		conf.retryCfg.MaxTime = 3
-		log.Warn("Invalid retryCfg MaxTime value, the default value of 3 has been applied")
+	if conf.RetryCfg.MaxTime < 1 {
+		conf.RetryCfg.MaxTime = 3
+		log.Warn("Invalid RetryCfg MaxTime value, the default value of 3 has been applied")
 	}
 }
 
@@ -102,8 +102,8 @@ func GetDefaultConf() PoolConfig {
 		IdleTime:        0 * time.Millisecond,
 		MaxConnPoolSize: 10,
 		MinConnPoolSize: 0,
-		reconnectCfg:    ReconnectConfig{IdleTime: 10 * time.Second, MaxTimeDuration: 0 * time.Second, MaxTime: 0},
-		retryCfg:        RetryConfig{IdleTime: 1 * time.Second, MaxTime: 3},
+		ReconnectCfg:    ReconnectConfig{IdleTime: 10 * time.Second, MaxTimeDuration: 0 * time.Second, MaxTime: 0},
+		RetryCfg:        RetryConfig{IdleTime: 1 * time.Second, MaxTime: 3},
 	}
 }
 
@@ -241,6 +241,18 @@ func WithMinSize(minSize int) SessionPoolConfOption {
 	}
 }
 
+func WithReconnectConfig(reconnectCfg ReconnectConfig) SessionPoolConfOption {
+	return func(conf *SessionPoolConf) {
+		conf.reconnectCfg = reconnectCfg
+	}
+}
+
+func WithRetryConfig(retryCfg RetryConfig) SessionPoolConfOption {
+	return func(conf *SessionPoolConf) {
+		conf.retryCfg = retryCfg
+	}
+}
+
 func (conf *SessionPoolConf) checkMandatoryFields() error {
 	// Check mandatory fields
 	if conf.username == "" {
@@ -281,23 +293,23 @@ func (conf *SessionPoolConf) checkBasicFields(log Logger) {
 
 	if conf.reconnectCfg.MaxTimeDuration < 0 {
 		conf.reconnectCfg.MaxTimeDuration = 0 * time.Second
-		log.Warn("Illegal reconnectCfg MaxTimeDuration value, the default value of 0 second has been applied")
+		log.Warn("Illegal ReconnectCfg MaxTimeDuration value, the default value of 0 second has been applied")
 	}
 	if conf.reconnectCfg.IdleTime < 1 {
 		conf.reconnectCfg.IdleTime = 10 * time.Second
-		log.Warn("Illegal reconnectCfg IdleTime value, the default value of 10 second has been applied")
+		log.Warn("Illegal ReconnectCfg IdleTime value, the default value of 10 second has been applied")
 	}
 	if conf.reconnectCfg.MaxTime < 0 {
 		conf.reconnectCfg.MaxTime = 0
-		log.Warn("Invalid reconnectCfg MaxTime value, the default value of 0 has been applied")
+		log.Warn("Invalid ReconnectCfg MaxTime value, the default value of 0 has been applied")
 	}
 
 	if conf.retryCfg.IdleTime < 1 {
 		conf.retryCfg.IdleTime = 1 * time.Second
-		log.Warn("Illegal retryCfg IdleTime value, the default value of 1 second has been applied")
+		log.Warn("Illegal RetryCfg IdleTime value, the default value of 1 second has been applied")
 	}
 	if conf.retryCfg.MaxTime < 1 {
 		conf.retryCfg.MaxTime = 3
-		log.Warn("Invalid retryCfg MaxTime value, the default value of 3 has been applied")
+		log.Warn("Invalid RetryCfg MaxTime value, the default value of 3 has been applied")
 	}
 }
