@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/JimWen/nebula-go/v3/nebula"
+	graph "github.com/JimWen/nebula-go/v3/nebula/graph"
 	"github.com/facebook/fbthrift/thrift/lib/go/thrift"
-	"github.com/vesoft-inc/nebula-go/v3/nebula"
-	graph "github.com/vesoft-inc/nebula-go/v3/nebula/graph"
 )
 
 type timezoneInfo struct {
@@ -46,9 +46,11 @@ func (session *Session) reconnectWithExecuteErr(err error) error {
 	retryTime := 0
 	startRetryTime := time.Now()
 
+	var _err error = nil
+
 	for {
 
-		if _err := session.reConnect(); _err != nil {
+		if _err = session.reConnect(); _err != nil {
 			session.log.Error(fmt.Sprintf("failed to reconnect, %s", _err.Error()))
 
 			if session.reconnectCfg.MaxTimeDuration != 0 {
@@ -72,9 +74,13 @@ func (session *Session) reconnectWithExecuteErr(err error) error {
 
 	}
 
-	session.log.Info(fmt.Sprintf("Successfully reconnect to host: %s, port: %d",
-		session.connection.severAddress.Host, session.connection.severAddress.Port))
-	return nil
+	if _err != nil {
+		return fmt.Errorf("Nebula Down")
+	} else {
+		session.log.Info(fmt.Sprintf("Successfully reconnect to host: %s, port: %d",
+			session.connection.severAddress.Host, session.connection.severAddress.Port))
+		return nil
+	}
 }
 
 func (session *Session) executeWithReconnect(f func() (interface{}, error)) (interface{}, error) {
