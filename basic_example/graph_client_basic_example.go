@@ -11,7 +11,7 @@ package main
 import (
 	"fmt"
 
-	nebula "github.com/vesoft-inc/nebula-go/v3"
+	nebula "github.com/JimWen/nebula-go/v3"
 )
 
 const (

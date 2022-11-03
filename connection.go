@@ -16,9 +16,9 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/JimWen/nebula-go/v3/nebula"
+	"github.com/JimWen/nebula-go/v3/nebula/graph"
 	"github.com/facebook/fbthrift/thrift/lib/go/thrift"
-	"github.com/vesoft-inc/nebula-go/v3/nebula"
-	"github.com/vesoft-inc/nebula-go/v3/nebula/graph"
 )
 
 type connection struct {

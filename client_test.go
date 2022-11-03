@@ -19,9 +19,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/JimWen/nebula-go/v3/nebula"
+	"github.com/JimWen/nebula-go/v3/nebula/graph"
 	"github.com/stretchr/testify/assert"
-	"github.com/vesoft-inc/nebula-go/v3/nebula"
-	"github.com/vesoft-inc/nebula-go/v3/nebula/graph"
 )
 
 const (

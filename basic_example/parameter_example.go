@@ -11,7 +11,7 @@ import (
 	"strings"
 	"sync"
 
-	nebulago "github.com/vesoft-inc/nebula-go/v3"
+	nebulago "github.com/JimWen/nebula-go/v3"
 )
 
 const (

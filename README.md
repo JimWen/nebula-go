@@ -1,6 +1,6 @@
 # nebula-go
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/vesoft-inc/nebula-go/v3.svg)](https://pkg.go.dev/github.com/vesoft-inc/nebula-go/v3)
+[![Go Reference](https://pkg.go.dev/badge/github.com/JimWen/nebula-go/v3.svg)](https://pkg.go.dev/github.com/JimWen/nebula-go/v3)
 ![functional tests](https://github.com/vesoft-inc/nebula-go/actions/workflows/test.yaml/badge.svg)
 [![codecov](https://codecov.io/gh/vesoft-inc/nebula-go/branch/master/graph/badge.svg?token=dzUo5KdSux)](https://codecov.io/gh/vesoft-inc/nebula-go)
 
@@ -31,13 +31,13 @@ Please be careful not to modify the files in the nebula directory, these codes w
 ## Install & Update
 
 ```shell
-$ go get -u -v github.com/vesoft-inc/nebula-go/v3@master
+$ go get -u -v github.com/JimWen/nebula-go/v3@master
 ```
 
 You can specify the version of Nebula-go by substituting `<tag>` in `$ go get -u -v github.com/vesoft-inc/nebula-go@<tag>`.
 For example:
 
-  for v3: `$ go get -u -v github.com/vesoft-inc/nebula-go/v3@v3.3.0`
+  for v3: `$ go get -u -v github.com/JimWen/nebula-go/v3@v3.3.0`
 
   for v2: `$ go get -u -v github.com/vesoft-inc/nebula-go/v2@v2.6.0`
 

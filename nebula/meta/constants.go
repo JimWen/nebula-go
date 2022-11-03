@@ -7,11 +7,10 @@ package meta
 import (
 	"bytes"
 	"context"
-	"sync"
 	"fmt"
+	nebula0 "github.com/JimWen/nebula-go/v3/nebula"
 	thrift "github.com/facebook/fbthrift/thrift/lib/go/thrift"
-	nebula0 "github.com/vesoft-inc/nebula-go/v3/nebula"
-
+	"sync"
 )
 
 // (needed to ensure safety because of naive import list construction.)
