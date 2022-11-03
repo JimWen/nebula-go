@@ -231,7 +231,9 @@ func (session *Session) reConnect() error {
 			session.connection.close()
 		}
 
+		session.sessionID = newsession.sessionID
 		session.connection = newsession.connection
+		session.returnedAt = newsession.returnedAt
 	}
 
 	return nil
