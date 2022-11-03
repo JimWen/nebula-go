@@ -32,6 +32,8 @@ type Session struct {
 	returnedAt time.Time // the timestamp that the session was created or returned.
 	mu         sync.Mutex
 	timezoneInfo
+	reconnectCfg ReconnectConfig
+	retryCfg     RetryConfig
 }
 
 func (session *Session) reconnectWithExecuteErr(err error) error {
@@ -41,13 +43,33 @@ func (session *Session) reconnectWithExecuteErr(err error) error {
 		return err
 	}
 
+	retryTime := 0
+	startRetryTime := time.Now()
+
 	for {
+
 		if _err := session.reConnect(); _err != nil {
 			session.log.Error(fmt.Sprintf("failed to reconnect, %s", _err.Error()))
-			time.Sleep(10 * time.Second)
+
+			if session.reconnectCfg.MaxTimeDuration != 0 {
+				retryTimeDuration := time.Since(startRetryTime)
+				if retryTimeDuration >= session.reconnectCfg.MaxTimeDuration {
+					break
+				}
+			}
+
+			if session.reconnectCfg.MaxTime != 0 {
+				retryTime += 1
+				if retryTime >= session.reconnectCfg.MaxTime {
+					break
+				}
+			}
+
+			time.Sleep(session.reconnectCfg.IdleTime)
 		} else {
 			break
 		}
+
 	}
 
 	session.log.Info(fmt.Sprintf("Successfully reconnect to host: %s, port: %d",
@@ -81,14 +103,44 @@ func (session *Session) ExecuteWithParameter(stmt string, params map[string]inte
 	}
 
 	execFunc := func() (interface{}, error) {
-		resp, err := session.connection.executeWithParameter(session.sessionID, stmt, paramsMap)
+
+		retryTime := 0
+
+		var resp *graph.ExecutionResponse
+		var err error = nil
+
+		for {
+			resp, err = session.connection.executeWithParameter(session.sessionID, stmt, paramsMap)
+			if err == nil {
+				break
+			}
+
+			// TransportException need reconnect not retry
+			_, ok := err.(thrift.TransportException)
+			if ok {
+				break
+			}
+
+			if session.retryCfg.MaxTime > 0 {
+				retryTime += 1
+				if retryTime >= session.retryCfg.MaxTime {
+					break
+				}
+			}
+
+			session.log.Error(fmt.Sprintf("start retry, %s", err.Error()))
+			time.Sleep(session.retryCfg.IdleTime)
+		}
+
 		if err != nil {
 			return nil, err
 		}
+
 		resSet, err := genResultSet(resp, session.timezoneInfo)
 		if err != nil {
 			return nil, err
 		}
+
 		return resSet, nil
 	}
 
@@ -96,6 +148,7 @@ func (session *Session) ExecuteWithParameter(stmt string, params map[string]inte
 	if err != nil {
 		return nil, err
 	}
+
 	return resp.(*ResultSet), err
 
 }
@@ -187,17 +240,42 @@ func (session *Session) ExecuteJsonWithParameter(stmt string, params map[string]
 	}
 
 	execFunc := func() (interface{}, error) {
-		resp, err := session.connection.ExecuteJsonWithParameter(session.sessionID, stmt, paramsMap)
-		if err != nil {
-			return nil, err
+
+		retryTime := 0
+
+		var resp []byte
+		var err error = nil
+
+		for {
+			resp, err = session.connection.ExecuteJsonWithParameter(session.sessionID, stmt, paramsMap)
+			if err == nil {
+				return resp, nil
+			}
+
+			// TransportException need reconnect not retry
+			_, ok := err.(thrift.TransportException)
+			if ok {
+				return nil, err
+			}
+
+			if session.retryCfg.MaxTime > 0 {
+				retryTime += 1
+				if retryTime >= session.retryCfg.MaxTime {
+					return nil, err
+				}
+			}
+
+			session.log.Error(fmt.Sprintf("start retry, %s", err.Error()))
+			time.Sleep(session.retryCfg.IdleTime)
 		}
-		return resp, nil
+
 	}
 
 	resp, err := session.executeWithReconnect(execFunc)
 	if err != nil {
 		return nil, err
 	}
+
 	return resp.([]byte), err
 }
 

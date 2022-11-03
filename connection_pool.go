@@ -138,6 +138,8 @@ func (pool *ConnectionPool) GetSession(username, password string) (*Session, err
 		sessPool:     nil,
 		log:          pool.log,
 		timezoneInfo: timezoneInfo{timezoneOffset, timezoneName},
+		reconnectCfg: pool.conf.reconnectCfg,
+		retryCfg:     pool.conf.retryCfg,
 	}
 
 	return &newSession, nil

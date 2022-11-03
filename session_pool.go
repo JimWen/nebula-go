@@ -319,6 +319,8 @@ func (pool *SessionPool) newSession() (*Session, error) {
 		sessPool:     pool,
 		log:          pool.log,
 		timezoneInfo: timezoneInfo{timezoneOffset, timezoneName},
+		reconnectCfg: pool.conf.reconnectCfg,
+		retryCfg:     pool.conf.retryCfg,
 	}
 
 	// Switch to the default space
