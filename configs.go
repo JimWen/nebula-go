@@ -73,11 +73,11 @@ func (conf *PoolConfig) validateConf(log Logger) {
 	}
 
 	if conf.reconnectCfg.MaxTimeDuration < 0 {
-		conf.reconnectCfg.MaxTimeDuration = 0 * time.Millisecond
+		conf.reconnectCfg.MaxTimeDuration = 0 * time.Second
 		log.Warn("Illegal reconnectCfg MaxTimeDuration value, the default value of 0 second has been applied")
 	}
 	if conf.reconnectCfg.IdleTime < 1 {
-		conf.reconnectCfg.IdleTime = 10 * time.Millisecond
+		conf.reconnectCfg.IdleTime = 10 * time.Second
 		log.Warn("Illegal reconnectCfg IdleTime value, the default value of 10 second has been applied")
 	}
 	if conf.reconnectCfg.MaxTime < 0 {
@@ -86,7 +86,7 @@ func (conf *PoolConfig) validateConf(log Logger) {
 	}
 
 	if conf.retryCfg.IdleTime < 1 {
-		conf.retryCfg.IdleTime = 1 * time.Millisecond
+		conf.retryCfg.IdleTime = 1 * time.Second
 		log.Warn("Illegal retryCfg IdleTime value, the default value of 1 second has been applied")
 	}
 	if conf.retryCfg.MaxTime < 1 {
@@ -102,8 +102,8 @@ func GetDefaultConf() PoolConfig {
 		IdleTime:        0 * time.Millisecond,
 		MaxConnPoolSize: 10,
 		MinConnPoolSize: 0,
-		reconnectCfg:    ReconnectConfig{IdleTime: 10 * time.Millisecond, MaxTimeDuration: 0 * time.Millisecond, MaxTime: 0},
-		retryCfg:        RetryConfig{IdleTime: 1 * time.Millisecond, MaxTime: 3},
+		reconnectCfg:    ReconnectConfig{IdleTime: 10 * time.Second, MaxTimeDuration: 0 * time.Second, MaxTime: 0},
+		retryCfg:        RetryConfig{IdleTime: 1 * time.Second, MaxTime: 3},
 	}
 }
 
@@ -196,8 +196,8 @@ func NewSessionPoolConf(
 		maxSize:      30,
 		minSize:      1,
 		hostIndex:    0,
-		reconnectCfg: ReconnectConfig{IdleTime: 10 * time.Millisecond, MaxTimeDuration: 0 * time.Millisecond, MaxTime: 0},
-		retryCfg:     RetryConfig{IdleTime: 1 * time.Millisecond, MaxTime: 3},
+		reconnectCfg: ReconnectConfig{IdleTime: 10 * time.Second, MaxTimeDuration: 0 * time.Second, MaxTime: 0},
+		retryCfg:     RetryConfig{IdleTime: 1 * time.Second, MaxTime: 3},
 	}
 
 	// Iterate the given options and apply them to the config.
@@ -280,11 +280,11 @@ func (conf *SessionPoolConf) checkBasicFields(log Logger) {
 	}
 
 	if conf.reconnectCfg.MaxTimeDuration < 0 {
-		conf.reconnectCfg.MaxTimeDuration = 0 * time.Millisecond
+		conf.reconnectCfg.MaxTimeDuration = 0 * time.Second
 		log.Warn("Illegal reconnectCfg MaxTimeDuration value, the default value of 0 second has been applied")
 	}
 	if conf.reconnectCfg.IdleTime < 1 {
-		conf.reconnectCfg.IdleTime = 10 * time.Millisecond
+		conf.reconnectCfg.IdleTime = 10 * time.Second
 		log.Warn("Illegal reconnectCfg IdleTime value, the default value of 10 second has been applied")
 	}
 	if conf.reconnectCfg.MaxTime < 0 {
@@ -293,7 +293,7 @@ func (conf *SessionPoolConf) checkBasicFields(log Logger) {
 	}
 
 	if conf.retryCfg.IdleTime < 1 {
-		conf.retryCfg.IdleTime = 1 * time.Millisecond
+		conf.retryCfg.IdleTime = 1 * time.Second
 		log.Warn("Illegal retryCfg IdleTime value, the default value of 1 second has been applied")
 	}
 	if conf.retryCfg.MaxTime < 1 {
