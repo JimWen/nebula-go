@@ -314,14 +314,14 @@ func (session *Session) reConnect() error {
 
 		// close current session connect
 		if session.connection != nil {
-			session.log.Warn("Session has been released")
-
-			if err := session.connection.signOut(session.sessionID); err != nil {
+			if err := newsession.connection.signOut(session.sessionID); err != nil {
 				session.log.Warn(fmt.Sprintf("Sign out failed, %s", err.Error()))
 			}
 
 			// close connection
 			session.connection.close()
+		} else {
+			session.log.Warn("Session has been released")
 		}
 
 		session.sessionID = newsession.sessionID
