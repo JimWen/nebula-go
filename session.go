@@ -388,7 +388,7 @@ func IsQueryOk(err error, resp *graph.ExecutionResponse) bool {
 
 // when session transfer to server is error
 func IsServerSessionError(resp *graph.ExecutionResponse) bool {
-	return resp != nil && resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_INVALID || resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_TIMEOUT
+	return resp != nil && (resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_INVALID || resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_TIMEOUT)
 }
 
 // construct Slice to nebula.NList
