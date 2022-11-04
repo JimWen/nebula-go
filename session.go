@@ -86,12 +86,12 @@ func (session *Session) reconnectWithExecuteErr(resp *graph.ExecutionResponse, e
 func (session *Session) executeWithReconnect(f func() (interface{}, error)) (interface{}, error) {
 	resp, err := f()
 
-	if ret, ok := resp.(*graph.ExecutionResponse); ok {
-		if IsQueryOk(err, ret) {
+	if ret, ok := resp.(*ResultSet); ok {
+		if IsQueryOk(err, ret.resp) {
 			return resp, nil
 		}
 
-		if err2 := session.reconnectWithExecuteErr(ret, err); err2 != nil {
+		if err2 := session.reconnectWithExecuteErr(ret.resp, err); err2 != nil {
 			return nil, err2
 		}
 	} else {
