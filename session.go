@@ -85,13 +85,18 @@ func (session *Session) reconnectWithExecuteErr(resp *graph.ExecutionResponse, e
 
 func (session *Session) executeWithReconnect(f func() (interface{}, error)) (interface{}, error) {
 	resp, err := f()
-	if err == nil {
-		return resp, nil
-	}
 
 	if ret, ok := resp.(*graph.ExecutionResponse); ok {
+		if IsQueryOk(err, ret) {
+			return resp, nil
+		}
+
 		if err2 := session.reconnectWithExecuteErr(ret, err); err2 != nil {
 			return nil, err2
+		}
+	} else {
+		if err == nil {
+			return resp, nil
 		}
 	}
 
@@ -121,7 +126,7 @@ func (session *Session) ExecuteWithParameter(stmt string, params map[string]inte
 
 		for {
 			resp, err = session.connection.executeWithParameter(session.sessionID, stmt, paramsMap)
-			if err == nil && !IsServerSessionError(resp) {
+			if IsQueryOk(err, resp) {
 				break
 			}
 
@@ -375,6 +380,10 @@ func (session *Session) Ping() error {
 
 func IsError(resp *graph.ExecutionResponse) bool {
 	return resp.GetErrorCode() != nebula.ErrorCode_SUCCEEDED
+}
+
+func IsQueryOk(err error, resp *graph.ExecutionResponse) bool {
+	return err == nil && !IsServerSessionError(resp)
 }
 
 // when session transfer to server is error
