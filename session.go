@@ -121,7 +121,7 @@ func (session *Session) ExecuteWithParameter(stmt string, params map[string]inte
 
 		for {
 			resp, err = session.connection.executeWithParameter(session.sessionID, stmt, paramsMap)
-			if err == nil {
+			if err == nil && !IsServerSessionError(resp) {
 				break
 			}
 
@@ -379,7 +379,7 @@ func IsError(resp *graph.ExecutionResponse) bool {
 
 // when session transfer to server is error
 func IsServerSessionError(resp *graph.ExecutionResponse) bool {
-	return resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_INVALID || resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_TIMEOUT
+	return resp != nil && resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_INVALID || resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_TIMEOUT
 }
 
 // construct Slice to nebula.NList
