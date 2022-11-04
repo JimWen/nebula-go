@@ -36,10 +36,10 @@ type Session struct {
 	retryCfg     RetryConfig
 }
 
-func (session *Session) reconnectWithExecuteErr(err error) error {
+func (session *Session) reconnectWithExecuteErr(resp *graph.ExecutionResponse, err error) error {
 	// Reconnect only if the transport is closed
 	_, ok := err.(thrift.TransportException)
-	if !ok {
+	if !ok && !IsServerSessionError(resp) {
 		return err
 	}
 
@@ -88,9 +88,13 @@ func (session *Session) executeWithReconnect(f func() (interface{}, error)) (int
 	if err == nil {
 		return resp, nil
 	}
-	if err2 := session.reconnectWithExecuteErr(err); err2 != nil {
-		return nil, err2
+
+	if ret, ok := resp.(*graph.ExecutionResponse); ok {
+		if err2 := session.reconnectWithExecuteErr(ret, err); err2 != nil {
+			return nil, err2
+		}
 	}
+
 	// Execute with the new connection
 	return f()
 
@@ -123,7 +127,7 @@ func (session *Session) ExecuteWithParameter(stmt string, params map[string]inte
 
 			// TransportException need reconnect not retry
 			_, ok := err.(thrift.TransportException)
-			if ok {
+			if ok || IsServerSessionError(resp) {
 				break
 			}
 
@@ -371,6 +375,11 @@ func (session *Session) Ping() error {
 
 func IsError(resp *graph.ExecutionResponse) bool {
 	return resp.GetErrorCode() != nebula.ErrorCode_SUCCEEDED
+}
+
+// when session transfer to server is error
+func IsServerSessionError(resp *graph.ExecutionResponse) bool {
+	return resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_INVALID || resp.GetErrorCode() == nebula.ErrorCode_E_SESSION_TIMEOUT
 }
 
 // construct Slice to nebula.NList
