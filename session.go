@@ -86,18 +86,18 @@ func (session *Session) reconnectWithExecuteErr(resp *graph.ExecutionResponse, e
 func (session *Session) executeWithReconnect(f func() (interface{}, error)) (interface{}, error) {
 	resp, err := f()
 
+	var param *graph.ExecutionResponse = nil
 	if ret, ok := resp.(*ResultSet); ok {
-		if IsQueryOk(err, ret.resp) {
+		param = ret.resp
+		if IsQueryOk(err, param) {
 			return resp, nil
 		}
+	} else if err == nil {
+		return resp, nil
+	}
 
-		if err2 := session.reconnectWithExecuteErr(ret.resp, err); err2 != nil {
-			return nil, err2
-		}
-	} else {
-		if err == nil {
-			return resp, nil
-		}
+	if err2 := session.reconnectWithExecuteErr(param, err); err2 != nil {
+		return nil, err2
 	}
 
 	// Execute with the new connection
