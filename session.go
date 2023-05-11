@@ -175,62 +175,64 @@ func (session *Session) Execute(stmt string) (*ResultSet, error) {
 
 // ExecuteJson returns the result of the given query as a json string
 // Date and Datetime will be returned in UTC
+//
 //	JSON struct:
-// {
-//     "results":[
-//         {
-//             "columns":[
-//             ],
-//             "data":[
-//                 {
-//                     "row":[
-//                         "row-data"
-//                     ],
-//                     "meta":[
-//                         "metadata"
-//                     ]
-//                 }
-//             ],
-//             "latencyInUs":0,
-//             "spaceName":"",
-//             "planDesc ":{
-//                 "planNodeDescs":[
-//                     {
-//                         "name":"",
-//                         "id":0,
-//                         "outputVar":"",
-//                         "description":{
-//                             "key":""
-//                         },
-//                         "profiles":[
-//                             {
-//                                 "rows":1,
-//                                 "execDurationInUs":0,
-//                                 "totalDurationInUs":0,
-//                                 "otherStats":{}
-//                             }
-//                         ],
-//                         "branchInfo":{
-//                             "isDoBranch":false,
-//                             "conditionNodeId":-1
-//                         },
-//                         "dependencies":[]
-//                     }
-//                 ],
-//                 "nodeIndexMap":{},
-//                 "format":"",
-//                 "optimize_time_in_us":0
-//             },
-//             "comment ":""
-//         }
-//     ],
-//     "errors":[
-//         {
-//       		"code": 0,
-//       		"message": ""
-//         }
-//     ]
-// }
+//
+//	{
+//	    "results":[
+//	        {
+//	            "columns":[
+//	            ],
+//	            "data":[
+//	                {
+//	                    "row":[
+//	                        "row-data"
+//	                    ],
+//	                    "meta":[
+//	                        "metadata"
+//	                    ]
+//	                }
+//	            ],
+//	            "latencyInUs":0,
+//	            "spaceName":"",
+//	            "planDesc ":{
+//	                "planNodeDescs":[
+//	                    {
+//	                        "name":"",
+//	                        "id":0,
+//	                        "outputVar":"",
+//	                        "description":{
+//	                            "key":""
+//	                        },
+//	                        "profiles":[
+//	                            {
+//	                                "rows":1,
+//	                                "execDurationInUs":0,
+//	                                "totalDurationInUs":0,
+//	                                "otherStats":{}
+//	                            }
+//	                        ],
+//	                        "branchInfo":{
+//	                            "isDoBranch":false,
+//	                            "conditionNodeId":-1
+//	                        },
+//	                        "dependencies":[]
+//	                    }
+//	                ],
+//	                "nodeIndexMap":{},
+//	                "format":"",
+//	                "optimize_time_in_us":0
+//	            },
+//	            "comment ":""
+//	        }
+//	    ],
+//	    "errors":[
+//	        {
+//	      		"code": 0,
+//	      		"message": ""
+//	        }
+//	    ]
+//	}
 func (session *Session) ExecuteJson(stmt string) ([]byte, error) {
 	return session.ExecuteJsonWithParameter(stmt, map[string]interface{}{})
 }
@@ -296,7 +298,7 @@ func (session *Session) ExecuteJsonWithParameter(stmt string, params map[string]
 
 func (session *Session) reConnect() error {
 	if session.connPool != nil {
-		newconnection, err := session.connPool.getIdleConn()
+		newConnection, err := session.connPool.getIdleConn()
 		if err != nil {
 			err = fmt.Errorf(err.Error())
 			return err
@@ -304,7 +306,7 @@ func (session *Session) reConnect() error {
 
 		// Release connection to pool
 		session.connPool.release(session.connection)
-		session.connection = newconnection
+		session.connection = newConnection
 	} else if session.sessPool != nil {
 		newsession, err := session.sessPool.newSession()
 		if err != nil {

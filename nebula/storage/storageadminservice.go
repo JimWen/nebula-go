@@ -145,7 +145,7 @@ func NewStorageAdminServiceClientProtocol(prot thrift.Protocol) *StorageAdminSer
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) TransLeader(req *TransLeaderReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceTransLeaderArgs{
 		Req: req,
@@ -168,7 +168,7 @@ func (p *StorageAdminServiceClient) recvTransLeader() (value *AdminExecResp, err
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) AddPart(req *AddPartReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceAddPartArgs{
 		Req: req,
@@ -191,7 +191,7 @@ func (p *StorageAdminServiceClient) recvAddPart() (value *AdminExecResp, err err
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) AddLearner(req *AddLearnerReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceAddLearnerArgs{
 		Req: req,
@@ -214,7 +214,7 @@ func (p *StorageAdminServiceClient) recvAddLearner() (value *AdminExecResp, err 
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) RemovePart(req *RemovePartReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceRemovePartArgs{
 		Req: req,
@@ -237,7 +237,7 @@ func (p *StorageAdminServiceClient) recvRemovePart() (value *AdminExecResp, err 
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) MemberChange(req *MemberChangeReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceMemberChangeArgs{
 		Req: req,
@@ -260,7 +260,7 @@ func (p *StorageAdminServiceClient) recvMemberChange() (value *AdminExecResp, er
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) WaitingForCatchUpData(req *CatchUpDataReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceWaitingForCatchUpDataArgs{
 		Req: req,
@@ -283,7 +283,7 @@ func (p *StorageAdminServiceClient) recvWaitingForCatchUpData() (value *AdminExe
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) CreateCheckpoint(req *CreateCPRequest) (_r *CreateCPResp, err error) {
 	args := StorageAdminServiceCreateCheckpointArgs{
 		Req: req,
@@ -306,7 +306,7 @@ func (p *StorageAdminServiceClient) recvCreateCheckpoint() (value *CreateCPResp,
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) DropCheckpoint(req *DropCPRequest) (_r *DropCPResp, err error) {
 	args := StorageAdminServiceDropCheckpointArgs{
 		Req: req,
@@ -329,7 +329,7 @@ func (p *StorageAdminServiceClient) recvDropCheckpoint() (value *DropCPResp, err
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) BlockingWrites(req *BlockingSignRequest) (_r *BlockingSignResp, err error) {
 	args := StorageAdminServiceBlockingWritesArgs{
 		Req: req,
@@ -352,7 +352,7 @@ func (p *StorageAdminServiceClient) recvBlockingWrites() (value *BlockingSignRes
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) GetLeaderParts(req *GetLeaderReq) (_r *GetLeaderPartsResp, err error) {
 	args := StorageAdminServiceGetLeaderPartsArgs{
 		Req: req,
@@ -375,7 +375,7 @@ func (p *StorageAdminServiceClient) recvGetLeaderParts() (value *GetLeaderPartsR
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) CheckPeers(req *CheckPeersReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceCheckPeersArgs{
 		Req: req,
@@ -398,7 +398,7 @@ func (p *StorageAdminServiceClient) recvCheckPeers() (value *AdminExecResp, err 
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) AddAdminTask(req *AddTaskRequest) (_r *AddTaskResp, err error) {
 	args := StorageAdminServiceAddAdminTaskArgs{
 		Req: req,
@@ -421,7 +421,7 @@ func (p *StorageAdminServiceClient) recvAddAdminTask() (value *AddTaskResp, err 
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) StopAdminTask(req *StopTaskRequest) (_r *StopTaskResp, err error) {
 	args := StorageAdminServiceStopAdminTaskArgs{
 		Req: req,
@@ -444,7 +444,7 @@ func (p *StorageAdminServiceClient) recvStopAdminTask() (value *StopTaskResp, er
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceClient) ClearSpace(req *ClearSpaceReq) (_r *ClearSpaceResp, err error) {
 	args := StorageAdminServiceClearSpaceArgs{
 		Req: req,
@@ -503,7 +503,7 @@ func NewStorageAdminServiceThreadsafeClientProtocol(prot thrift.Protocol) *Stora
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) TransLeader(req *TransLeaderReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -528,7 +528,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvTransLeader() (value *AdminExe
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) AddPart(req *AddPartReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -553,7 +553,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvAddPart() (value *AdminExecRes
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) AddLearner(req *AddLearnerReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -578,7 +578,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvAddLearner() (value *AdminExec
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) RemovePart(req *RemovePartReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -603,7 +603,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvRemovePart() (value *AdminExec
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) MemberChange(req *MemberChangeReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -628,7 +628,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvMemberChange() (value *AdminEx
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) WaitingForCatchUpData(req *CatchUpDataReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -653,7 +653,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvWaitingForCatchUpData() (value
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) CreateCheckpoint(req *CreateCPRequest) (_r *CreateCPResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -678,7 +678,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvCreateCheckpoint() (value *Cre
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) DropCheckpoint(req *DropCPRequest) (_r *DropCPResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -703,7 +703,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvDropCheckpoint() (value *DropC
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) BlockingWrites(req *BlockingSignRequest) (_r *BlockingSignResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -728,7 +728,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvBlockingWrites() (value *Block
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) GetLeaderParts(req *GetLeaderReq) (_r *GetLeaderPartsResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -753,7 +753,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvGetLeaderParts() (value *GetLe
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) CheckPeers(req *CheckPeersReq) (_r *AdminExecResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -778,7 +778,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvCheckPeers() (value *AdminExec
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) AddAdminTask(req *AddTaskRequest) (_r *AddTaskResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -803,7 +803,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvAddAdminTask() (value *AddTask
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) StopAdminTask(req *StopTaskRequest) (_r *StopTaskResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -828,7 +828,7 @@ func (p *StorageAdminServiceThreadsafeClient) recvStopAdminTask() (value *StopTa
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceThreadsafeClient) ClearSpace(req *ClearSpaceReq) (_r *ClearSpaceResp, err error) {
 	p.Mu.Lock()
 	defer p.Mu.Unlock()
@@ -873,7 +873,7 @@ func NewStorageAdminServiceChannelClient(channel thrift.RequestChannel) *Storage
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) TransLeader(ctx context.Context, req *TransLeaderReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceTransLeaderArgs{
 		Req: req,
@@ -888,7 +888,7 @@ func (p *StorageAdminServiceChannelClient) TransLeader(ctx context.Context, req 
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) AddPart(ctx context.Context, req *AddPartReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceAddPartArgs{
 		Req: req,
@@ -903,7 +903,7 @@ func (p *StorageAdminServiceChannelClient) AddPart(ctx context.Context, req *Add
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) AddLearner(ctx context.Context, req *AddLearnerReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceAddLearnerArgs{
 		Req: req,
@@ -918,7 +918,7 @@ func (p *StorageAdminServiceChannelClient) AddLearner(ctx context.Context, req *
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) RemovePart(ctx context.Context, req *RemovePartReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceRemovePartArgs{
 		Req: req,
@@ -933,7 +933,7 @@ func (p *StorageAdminServiceChannelClient) RemovePart(ctx context.Context, req *
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) MemberChange(ctx context.Context, req *MemberChangeReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceMemberChangeArgs{
 		Req: req,
@@ -948,7 +948,7 @@ func (p *StorageAdminServiceChannelClient) MemberChange(ctx context.Context, req
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) WaitingForCatchUpData(ctx context.Context, req *CatchUpDataReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceWaitingForCatchUpDataArgs{
 		Req: req,
@@ -963,7 +963,7 @@ func (p *StorageAdminServiceChannelClient) WaitingForCatchUpData(ctx context.Con
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) CreateCheckpoint(ctx context.Context, req *CreateCPRequest) (_r *CreateCPResp, err error) {
 	args := StorageAdminServiceCreateCheckpointArgs{
 		Req: req,
@@ -978,7 +978,7 @@ func (p *StorageAdminServiceChannelClient) CreateCheckpoint(ctx context.Context,
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) DropCheckpoint(ctx context.Context, req *DropCPRequest) (_r *DropCPResp, err error) {
 	args := StorageAdminServiceDropCheckpointArgs{
 		Req: req,
@@ -993,7 +993,7 @@ func (p *StorageAdminServiceChannelClient) DropCheckpoint(ctx context.Context, r
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) BlockingWrites(ctx context.Context, req *BlockingSignRequest) (_r *BlockingSignResp, err error) {
 	args := StorageAdminServiceBlockingWritesArgs{
 		Req: req,
@@ -1008,7 +1008,7 @@ func (p *StorageAdminServiceChannelClient) BlockingWrites(ctx context.Context, r
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) GetLeaderParts(ctx context.Context, req *GetLeaderReq) (_r *GetLeaderPartsResp, err error) {
 	args := StorageAdminServiceGetLeaderPartsArgs{
 		Req: req,
@@ -1023,7 +1023,7 @@ func (p *StorageAdminServiceChannelClient) GetLeaderParts(ctx context.Context, r
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) CheckPeers(ctx context.Context, req *CheckPeersReq) (_r *AdminExecResp, err error) {
 	args := StorageAdminServiceCheckPeersArgs{
 		Req: req,
@@ -1038,7 +1038,7 @@ func (p *StorageAdminServiceChannelClient) CheckPeers(ctx context.Context, req *
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) AddAdminTask(ctx context.Context, req *AddTaskRequest) (_r *AddTaskResp, err error) {
 	args := StorageAdminServiceAddAdminTaskArgs{
 		Req: req,
@@ -1053,7 +1053,7 @@ func (p *StorageAdminServiceChannelClient) AddAdminTask(ctx context.Context, req
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) StopAdminTask(ctx context.Context, req *StopTaskRequest) (_r *StopTaskResp, err error) {
 	args := StorageAdminServiceStopAdminTaskArgs{
 		Req: req,
@@ -1068,7 +1068,7 @@ func (p *StorageAdminServiceChannelClient) StopAdminTask(ctx context.Context, re
 }
 
 // Parameters:
-//  - Req
+//   - Req
 func (p *StorageAdminServiceChannelClient) ClearSpace(ctx context.Context, req *ClearSpaceReq) (_r *ClearSpaceResp, err error) {
 	args := StorageAdminServiceClearSpaceArgs{
 		Req: req,
@@ -1112,36 +1112,36 @@ func (p *StorageAdminServiceProcessor) FunctionServiceMap() map[string]string {
 }
 
 func NewStorageAdminServiceProcessor(handler StorageAdminService) *StorageAdminServiceProcessor {
-	self219 := &StorageAdminServiceProcessor{handler: handler, processorMap: make(map[string]thrift.ProcessorFunctionContext), functionServiceMap: make(map[string]string)}
-	self219.processorMap["transLeader"] = &storageAdminServiceProcessorTransLeader{handler: handler}
-	self219.processorMap["addPart"] = &storageAdminServiceProcessorAddPart{handler: handler}
-	self219.processorMap["addLearner"] = &storageAdminServiceProcessorAddLearner{handler: handler}
-	self219.processorMap["removePart"] = &storageAdminServiceProcessorRemovePart{handler: handler}
-	self219.processorMap["memberChange"] = &storageAdminServiceProcessorMemberChange{handler: handler}
-	self219.processorMap["waitingForCatchUpData"] = &storageAdminServiceProcessorWaitingForCatchUpData{handler: handler}
-	self219.processorMap["createCheckpoint"] = &storageAdminServiceProcessorCreateCheckpoint{handler: handler}
-	self219.processorMap["dropCheckpoint"] = &storageAdminServiceProcessorDropCheckpoint{handler: handler}
-	self219.processorMap["blockingWrites"] = &storageAdminServiceProcessorBlockingWrites{handler: handler}
-	self219.processorMap["getLeaderParts"] = &storageAdminServiceProcessorGetLeaderParts{handler: handler}
-	self219.processorMap["checkPeers"] = &storageAdminServiceProcessorCheckPeers{handler: handler}
-	self219.processorMap["addAdminTask"] = &storageAdminServiceProcessorAddAdminTask{handler: handler}
-	self219.processorMap["stopAdminTask"] = &storageAdminServiceProcessorStopAdminTask{handler: handler}
-	self219.processorMap["clearSpace"] = &storageAdminServiceProcessorClearSpace{handler: handler}
-	self219.functionServiceMap["transLeader"] = "StorageAdminService"
-	self219.functionServiceMap["addPart"] = "StorageAdminService"
-	self219.functionServiceMap["addLearner"] = "StorageAdminService"
-	self219.functionServiceMap["removePart"] = "StorageAdminService"
-	self219.functionServiceMap["memberChange"] = "StorageAdminService"
-	self219.functionServiceMap["waitingForCatchUpData"] = "StorageAdminService"
-	self219.functionServiceMap["createCheckpoint"] = "StorageAdminService"
-	self219.functionServiceMap["dropCheckpoint"] = "StorageAdminService"
-	self219.functionServiceMap["blockingWrites"] = "StorageAdminService"
-	self219.functionServiceMap["getLeaderParts"] = "StorageAdminService"
-	self219.functionServiceMap["checkPeers"] = "StorageAdminService"
-	self219.functionServiceMap["addAdminTask"] = "StorageAdminService"
-	self219.functionServiceMap["stopAdminTask"] = "StorageAdminService"
-	self219.functionServiceMap["clearSpace"] = "StorageAdminService"
-	return self219
+	self229 := &StorageAdminServiceProcessor{handler: handler, processorMap: make(map[string]thrift.ProcessorFunctionContext), functionServiceMap: make(map[string]string)}
+	self229.processorMap["transLeader"] = &storageAdminServiceProcessorTransLeader{handler: handler}
+	self229.processorMap["addPart"] = &storageAdminServiceProcessorAddPart{handler: handler}
+	self229.processorMap["addLearner"] = &storageAdminServiceProcessorAddLearner{handler: handler}
+	self229.processorMap["removePart"] = &storageAdminServiceProcessorRemovePart{handler: handler}
+	self229.processorMap["memberChange"] = &storageAdminServiceProcessorMemberChange{handler: handler}
+	self229.processorMap["waitingForCatchUpData"] = &storageAdminServiceProcessorWaitingForCatchUpData{handler: handler}
+	self229.processorMap["createCheckpoint"] = &storageAdminServiceProcessorCreateCheckpoint{handler: handler}
+	self229.processorMap["dropCheckpoint"] = &storageAdminServiceProcessorDropCheckpoint{handler: handler}
+	self229.processorMap["blockingWrites"] = &storageAdminServiceProcessorBlockingWrites{handler: handler}
+	self229.processorMap["getLeaderParts"] = &storageAdminServiceProcessorGetLeaderParts{handler: handler}
+	self229.processorMap["checkPeers"] = &storageAdminServiceProcessorCheckPeers{handler: handler}
+	self229.processorMap["addAdminTask"] = &storageAdminServiceProcessorAddAdminTask{handler: handler}
+	self229.processorMap["stopAdminTask"] = &storageAdminServiceProcessorStopAdminTask{handler: handler}
+	self229.processorMap["clearSpace"] = &storageAdminServiceProcessorClearSpace{handler: handler}
+	self229.functionServiceMap["transLeader"] = "StorageAdminService"
+	self229.functionServiceMap["addPart"] = "StorageAdminService"
+	self229.functionServiceMap["addLearner"] = "StorageAdminService"
+	self229.functionServiceMap["removePart"] = "StorageAdminService"
+	self229.functionServiceMap["memberChange"] = "StorageAdminService"
+	self229.functionServiceMap["waitingForCatchUpData"] = "StorageAdminService"
+	self229.functionServiceMap["createCheckpoint"] = "StorageAdminService"
+	self229.functionServiceMap["dropCheckpoint"] = "StorageAdminService"
+	self229.functionServiceMap["blockingWrites"] = "StorageAdminService"
+	self229.functionServiceMap["getLeaderParts"] = "StorageAdminService"
+	self229.functionServiceMap["checkPeers"] = "StorageAdminService"
+	self229.functionServiceMap["addAdminTask"] = "StorageAdminService"
+	self229.functionServiceMap["stopAdminTask"] = "StorageAdminService"
+	self229.functionServiceMap["clearSpace"] = "StorageAdminService"
+	return self229
 }
 
 type storageAdminServiceProcessorTransLeader struct {
@@ -1945,7 +1945,7 @@ func (p *storageAdminServiceProcessorClearSpace) RunContext(ctx context.Context,
 // HELPER FUNCTIONS AND STRUCTURES
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceTransLeaderArgs struct {
 	thrift.IRequest
 	Req *TransLeaderReq `thrift:"req,1" db:"req" json:"req"`
@@ -2006,7 +2006,7 @@ func (p *StorageAdminServiceTransLeaderArgs) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -2080,7 +2080,7 @@ func (p *StorageAdminServiceTransLeaderArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceTransLeaderResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -2139,7 +2139,7 @@ func (p *StorageAdminServiceTransLeaderResult) Read(iprot thrift.Protocol) error
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -2215,7 +2215,7 @@ func (p *StorageAdminServiceTransLeaderResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceAddPartArgs struct {
 	thrift.IRequest
 	Req *AddPartReq `thrift:"req,1" db:"req" json:"req"`
@@ -2276,7 +2276,7 @@ func (p *StorageAdminServiceAddPartArgs) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -2350,7 +2350,7 @@ func (p *StorageAdminServiceAddPartArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceAddPartResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -2409,7 +2409,7 @@ func (p *StorageAdminServiceAddPartResult) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -2485,7 +2485,7 @@ func (p *StorageAdminServiceAddPartResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceAddLearnerArgs struct {
 	thrift.IRequest
 	Req *AddLearnerReq `thrift:"req,1" db:"req" json:"req"`
@@ -2546,7 +2546,7 @@ func (p *StorageAdminServiceAddLearnerArgs) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -2620,7 +2620,7 @@ func (p *StorageAdminServiceAddLearnerArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceAddLearnerResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -2679,7 +2679,7 @@ func (p *StorageAdminServiceAddLearnerResult) Read(iprot thrift.Protocol) error 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -2755,7 +2755,7 @@ func (p *StorageAdminServiceAddLearnerResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceRemovePartArgs struct {
 	thrift.IRequest
 	Req *RemovePartReq `thrift:"req,1" db:"req" json:"req"`
@@ -2816,7 +2816,7 @@ func (p *StorageAdminServiceRemovePartArgs) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -2890,7 +2890,7 @@ func (p *StorageAdminServiceRemovePartArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceRemovePartResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -2949,7 +2949,7 @@ func (p *StorageAdminServiceRemovePartResult) Read(iprot thrift.Protocol) error 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -3025,7 +3025,7 @@ func (p *StorageAdminServiceRemovePartResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceMemberChangeArgs struct {
 	thrift.IRequest
 	Req *MemberChangeReq `thrift:"req,1" db:"req" json:"req"`
@@ -3086,7 +3086,7 @@ func (p *StorageAdminServiceMemberChangeArgs) Read(iprot thrift.Protocol) error 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -3160,7 +3160,7 @@ func (p *StorageAdminServiceMemberChangeArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceMemberChangeResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -3219,7 +3219,7 @@ func (p *StorageAdminServiceMemberChangeResult) Read(iprot thrift.Protocol) erro
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -3295,7 +3295,7 @@ func (p *StorageAdminServiceMemberChangeResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceWaitingForCatchUpDataArgs struct {
 	thrift.IRequest
 	Req *CatchUpDataReq `thrift:"req,1" db:"req" json:"req"`
@@ -3356,7 +3356,7 @@ func (p *StorageAdminServiceWaitingForCatchUpDataArgs) Read(iprot thrift.Protoco
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -3430,7 +3430,7 @@ func (p *StorageAdminServiceWaitingForCatchUpDataArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceWaitingForCatchUpDataResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -3489,7 +3489,7 @@ func (p *StorageAdminServiceWaitingForCatchUpDataResult) Read(iprot thrift.Proto
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -3565,7 +3565,7 @@ func (p *StorageAdminServiceWaitingForCatchUpDataResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceCreateCheckpointArgs struct {
 	thrift.IRequest
 	Req *CreateCPRequest `thrift:"req,1" db:"req" json:"req"`
@@ -3626,7 +3626,7 @@ func (p *StorageAdminServiceCreateCheckpointArgs) Read(iprot thrift.Protocol) er
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -3700,7 +3700,7 @@ func (p *StorageAdminServiceCreateCheckpointArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceCreateCheckpointResult struct {
 	thrift.IResponse
 	Success *CreateCPResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -3759,7 +3759,7 @@ func (p *StorageAdminServiceCreateCheckpointResult) Read(iprot thrift.Protocol) 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -3835,7 +3835,7 @@ func (p *StorageAdminServiceCreateCheckpointResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceDropCheckpointArgs struct {
 	thrift.IRequest
 	Req *DropCPRequest `thrift:"req,1" db:"req" json:"req"`
@@ -3896,7 +3896,7 @@ func (p *StorageAdminServiceDropCheckpointArgs) Read(iprot thrift.Protocol) erro
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -3970,7 +3970,7 @@ func (p *StorageAdminServiceDropCheckpointArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceDropCheckpointResult struct {
 	thrift.IResponse
 	Success *DropCPResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -4029,7 +4029,7 @@ func (p *StorageAdminServiceDropCheckpointResult) Read(iprot thrift.Protocol) er
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -4105,7 +4105,7 @@ func (p *StorageAdminServiceDropCheckpointResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceBlockingWritesArgs struct {
 	thrift.IRequest
 	Req *BlockingSignRequest `thrift:"req,1" db:"req" json:"req"`
@@ -4166,7 +4166,7 @@ func (p *StorageAdminServiceBlockingWritesArgs) Read(iprot thrift.Protocol) erro
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -4240,7 +4240,7 @@ func (p *StorageAdminServiceBlockingWritesArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceBlockingWritesResult struct {
 	thrift.IResponse
 	Success *BlockingSignResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -4299,7 +4299,7 @@ func (p *StorageAdminServiceBlockingWritesResult) Read(iprot thrift.Protocol) er
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -4375,7 +4375,7 @@ func (p *StorageAdminServiceBlockingWritesResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceGetLeaderPartsArgs struct {
 	thrift.IRequest
 	Req *GetLeaderReq `thrift:"req,1" db:"req" json:"req"`
@@ -4436,7 +4436,7 @@ func (p *StorageAdminServiceGetLeaderPartsArgs) Read(iprot thrift.Protocol) erro
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -4510,7 +4510,7 @@ func (p *StorageAdminServiceGetLeaderPartsArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceGetLeaderPartsResult struct {
 	thrift.IResponse
 	Success *GetLeaderPartsResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -4569,7 +4569,7 @@ func (p *StorageAdminServiceGetLeaderPartsResult) Read(iprot thrift.Protocol) er
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -4645,7 +4645,7 @@ func (p *StorageAdminServiceGetLeaderPartsResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceCheckPeersArgs struct {
 	thrift.IRequest
 	Req *CheckPeersReq `thrift:"req,1" db:"req" json:"req"`
@@ -4706,7 +4706,7 @@ func (p *StorageAdminServiceCheckPeersArgs) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -4780,7 +4780,7 @@ func (p *StorageAdminServiceCheckPeersArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceCheckPeersResult struct {
 	thrift.IResponse
 	Success *AdminExecResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -4839,7 +4839,7 @@ func (p *StorageAdminServiceCheckPeersResult) Read(iprot thrift.Protocol) error 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -4915,7 +4915,7 @@ func (p *StorageAdminServiceCheckPeersResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceAddAdminTaskArgs struct {
 	thrift.IRequest
 	Req *AddTaskRequest `thrift:"req,1" db:"req" json:"req"`
@@ -4976,7 +4976,7 @@ func (p *StorageAdminServiceAddAdminTaskArgs) Read(iprot thrift.Protocol) error 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -5050,7 +5050,7 @@ func (p *StorageAdminServiceAddAdminTaskArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceAddAdminTaskResult struct {
 	thrift.IResponse
 	Success *AddTaskResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -5109,7 +5109,7 @@ func (p *StorageAdminServiceAddAdminTaskResult) Read(iprot thrift.Protocol) erro
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -5185,7 +5185,7 @@ func (p *StorageAdminServiceAddAdminTaskResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceStopAdminTaskArgs struct {
 	thrift.IRequest
 	Req *StopTaskRequest `thrift:"req,1" db:"req" json:"req"`
@@ -5246,7 +5246,7 @@ func (p *StorageAdminServiceStopAdminTaskArgs) Read(iprot thrift.Protocol) error
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -5320,7 +5320,7 @@ func (p *StorageAdminServiceStopAdminTaskArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceStopAdminTaskResult struct {
 	thrift.IResponse
 	Success *StopTaskResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -5379,7 +5379,7 @@ func (p *StorageAdminServiceStopAdminTaskResult) Read(iprot thrift.Protocol) err
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -5455,7 +5455,7 @@ func (p *StorageAdminServiceStopAdminTaskResult) String() string {
 }
 
 // Attributes:
-//  - Req
+//   - Req
 type StorageAdminServiceClearSpaceArgs struct {
 	thrift.IRequest
 	Req *ClearSpaceReq `thrift:"req,1" db:"req" json:"req"`
@@ -5516,7 +5516,7 @@ func (p *StorageAdminServiceClearSpaceArgs) Read(iprot thrift.Protocol) error {
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 1:
@@ -5590,7 +5590,7 @@ func (p *StorageAdminServiceClearSpaceArgs) String() string {
 }
 
 // Attributes:
-//  - Success
+//   - Success
 type StorageAdminServiceClearSpaceResult struct {
 	thrift.IResponse
 	Success *ClearSpaceResp `thrift:"success,0,optional" db:"success" json:"success,omitempty"`
@@ -5649,7 +5649,7 @@ func (p *StorageAdminServiceClearSpaceResult) Read(iprot thrift.Protocol) error 
 			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
 		}
 		if fieldTypeId == thrift.STOP {
-			break;
+			break
 		}
 		switch fieldId {
 		case 0:
@@ -5723,5 +5723,3 @@ func (p *StorageAdminServiceClearSpaceResult) String() string {
 	}
 	return fmt.Sprintf("StorageAdminServiceClearSpaceResult({Success:%s})", successVal)
 }
-
-

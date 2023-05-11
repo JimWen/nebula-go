@@ -12,6 +12,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -237,6 +238,7 @@ func genPathWrapper(path *nebula.Path, timezoneInfo timezoneInfo) (*PathWrapper,
 		nodeList:         nodeList,
 		relationshipList: relationshipList,
 		segments:         segList,
+		timezoneInfo:     timezoneInfo,
 	}, nil
 }
 
@@ -459,7 +461,7 @@ func (node Node) Properties(tagName string) (map[string]*ValueWrapper, error) {
 	kvMap := make(map[string]*ValueWrapper)
 	// Check if label exists
 	if !node.HasTag(tagName) {
-		return nil, fmt.Errorf("failed to get properties: Tag name %s does not exsist in the Node", tagName)
+		return nil, fmt.Errorf("failed to get properties: Tag name %s does not exist in the Node", tagName)
 	}
 	index := node.tagNameIndexMap[tagName]
 	for k, v := range node.vertex.Tags[index].Props {
@@ -471,7 +473,7 @@ func (node Node) Properties(tagName string) (map[string]*ValueWrapper, error) {
 // Keys returns all prop names of the given tag name
 func (node Node) Keys(tagName string) ([]string, error) {
 	if !node.HasTag(tagName) {
-		return nil, fmt.Errorf("failed to get properties: Tag name %s does not exsist in the Node", tagName)
+		return nil, fmt.Errorf("failed to get properties: Tag name %s does not exist in the Node", tagName)
 	}
 	var propNameList []string
 	index := node.tagNameIndexMap[tagName]
@@ -484,7 +486,7 @@ func (node Node) Keys(tagName string) ([]string, error) {
 // Values returns all prop values of the given tag name
 func (node Node) Values(tagName string) ([]*ValueWrapper, error) {
 	if !node.HasTag(tagName) {
-		return nil, fmt.Errorf("failed to get properties: Tag name %s does not exsist in the Node", tagName)
+		return nil, fmt.Errorf("failed to get properties: Tag name %s does not exist in the Node", tagName)
 	}
 	var propValList []*ValueWrapper
 	index := node.tagNameIndexMap[tagName]
@@ -1270,24 +1272,36 @@ func (res ResultSet) MakePlanByRow() [][]interface{} {
 		}
 
 		if planNodeDesc.IsSetProfiles() {
-			var strArr []string
+			var profileArr []string
 			for i, profile := range planNodeDesc.GetProfiles() {
-				otherStats := profile.GetOtherStats()
-				if otherStats != nil {
-					strArr = append(strArr, "{")
+				var statArr []string
+				statArr = append(statArr, fmt.Sprintf("\"version\":%d", i))
+				statArr = append(statArr, fmt.Sprintf("\"rows\":%d", profile.GetRows()))
+				statArr = append(statArr, fmt.Sprintf("\"execTime\":\"%d(us)\"", profile.GetExecDurationInUs()))
+				statArr = append(statArr, fmt.Sprintf("\"totalTime\":\"%d(us)\"", profile.GetTotalDurationInUs()))
+				for k, v := range profile.GetOtherStats() {
+					s := string(v)
+					if matched, err := regexp.Match(`^[^{(\[]\w+`, v); err == nil && matched {
+						if !strings.HasPrefix(s, "\"") {
+							s = fmt.Sprintf("\"%s", s)
+						}
+						if !strings.HasSuffix(s, "\"") {
+							s = fmt.Sprintf("%s\"", s)
+						}
+					}
+					statArr = append(statArr, fmt.Sprintf("\"%s\": %s", k, s))
 				}
-				s := fmt.Sprintf("ver: %d, rows: %d, execTime: %dus, totalTime: %dus",
-					i, profile.GetRows(), profile.GetExecDurationInUs(), profile.GetTotalDurationInUs())
-				strArr = append(strArr, s)
-
-				for k, v := range otherStats {
-					strArr = append(strArr, fmt.Sprintf("%s: %s", k, v))
-				}
-				if otherStats != nil {
-					strArr = append(strArr, "}")
-				}
+				sort.Strings(statArr)
+				statStr := fmt.Sprintf("{%s}", strings.Join(statArr, ",\n"))
+				profileArr = append(profileArr, statStr)
 			}
-			row = append(row, strings.Join(strArr, "\n"))
+			allProfiles := strings.Join(profileArr, ",\n")
+			if len(profileArr) > 1 {
+				allProfiles = fmt.Sprintf("[%s]", allProfiles)
+			}
+			var buffer bytes.Buffer
+			json.Indent(&buffer, []byte(allProfiles), "", "  ")
+			row = append(row, string(buffer.Bytes()))
 		} else {
 			row = append(row, "")
 		}

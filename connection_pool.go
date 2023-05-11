@@ -163,6 +163,7 @@ func (pool *ConnectionPool) getIdleConn() (*connection, error) {
 			} else {
 				tmpNextEle = ele.Next()
 				pool.idleConnectionQueue.Remove(ele)
+				ele.Value.(*connection).close()
 			}
 		}
 		if newConn == nil {
@@ -365,10 +366,10 @@ func checkAddresses(confTimeout time.Duration, addresses []HostAddress, sslConfi
 
 func pingAddress(address HostAddress, timeout time.Duration, sslConfig *tls.Config) error {
 	newConn := newConnection(address)
-	defer newConn.close()
 	// Open connection to host
 	if err := newConn.open(newConn.severAddress, timeout, sslConfig); err != nil {
 		return err
 	}
+	defer newConn.close()
 	return nil
 }

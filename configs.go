@@ -155,12 +155,13 @@ func openAndReadFile(path string) ([]byte, error) {
 // SessionPoolConf is the configs of a session pool
 // Note that the space name is bound to the session pool for its lifetime
 type SessionPoolConf struct {
-	username     string        // username for authentication
-	password     string        // password for authentication
-	serviceAddrs []HostAddress // service addresses for session pool
-	hostIndex    int           // index of the host in ServiceAddrs that the next new session will connect to
-	spaceName    string        // The space name that all sessions in the pool are bound to
-	sslConfig    *tls.Config   // Optional SSL config for the connection
+	username             string        // username for authentication
+	password             string        // password for authentication
+	serviceAddrs         []HostAddress // service addresses for session pool
+	hostIndex            int           // index of the host in ServiceAddrs that the next new session will connect to
+	spaceName            string        // The space name that all sessions in the pool are bound to
+	sslConfig            *tls.Config   // Optional SSL config for the connection
+	retryGetSessionTimes int           // The max times to retry get new session when executing a query
 
 	// Basic pool configs
 	// Socket timeout and Socket connection timeout, unit: seconds
