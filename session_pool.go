@@ -290,7 +290,7 @@ func (pool *SessionPool) newSession() (*Session, error) {
 		severAddress: graphAddr,
 		timeout:      0 * time.Millisecond,
 		returnedAt:   time.Now(),
-		sslConfig:    nil,
+		sslConfig:    pool.conf.sslConfig,
 		graph:        nil,
 	}
 
