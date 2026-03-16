@@ -53,8 +53,9 @@ func NewSessionPool(conf SessionPoolConf, log Logger) (*SessionPool, error) {
 	conf.checkBasicFields(log)
 
 	newSessionPool := &SessionPool{
-		conf: conf,
-		log:  log,
+		conf:      conf,
+		log:       log,
+		sslConfig: conf.sslConfig,
 	}
 
 	// init the pool
@@ -295,7 +296,7 @@ func (pool *SessionPool) newSession() (*Session, error) {
 	}
 
 	// open a new connection
-	if err := cn.open(cn.severAddress, pool.conf.timeOut, nil); err != nil {
+	if err := cn.open(cn.severAddress, pool.conf.timeOut, pool.conf.sslConfig); err != nil {
 		return nil, fmt.Errorf("failed to create a net.Conn-backed Transport,: %s", err.Error())
 	}
 
